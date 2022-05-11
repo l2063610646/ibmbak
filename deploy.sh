@@ -13,9 +13,7 @@ END="==================================="
 
 if [ ! -f "$IBMCLOUD" ]; then
     echo "${BLUE}download ibm-cloud-cli-release${END}"
-    ver=$(curl -s https://github.com/IBM-Cloud/ibm-cloud-cli-release/releases/latest | grep -Po "(\d+\.){2}\d+")
-    #ver=1.1.0
-    wget -q -Oibm_cli.tgz https://clis.cloud.ibm.com/download/bluemix-cli/$ver/linux64
+    wget -q -Oibm_cli.tgz https://clis.cloud.ibm.com/download/bluemix-cli/2.7.0/linux64
     if [ $? -eq 0 ]; then
         tar xzf ibm_cli.tgz
     else
@@ -26,18 +24,17 @@ if [ ! -f "$IBMCLOUD" ]; then
 fi
 
 # set default env
-IBM_MEMORY=${IBM_MEMORY:-"128M"}
-V2_ID=${V2_ID:-"d007eab8-ac2a-4a7f-287a-f0d50ef08680"}
-V2_PATH=${V2_PATH:-"path"}
-ALTER_ID=${ALTER_ID:-"1"}
-VLESS_EN=${VLESS_EN:-"false"}
+IBM_MEMORY="256M"
+V2_ID="d007eab8-ac2a-4a7f-287a-f0d50ef08680"
+V2_PATH="path"
+ALTER_ID="1"
+VLESS_EN="false"
 mkdir -p $IBM_APP_NAME
 
 if [ ! -f "./config/v2ray" ]; then
     echo "${BLUE}download v2ray${END}"
     pushd ./config
-    new_ver=$(curl -s https://github.com/v2fly/v2ray-core/releases/latest | grep -Po "(\d+\.){2}\d+")
-    wget -q -Ov2ray.zip https://github.com/v2fly/v2ray-core/releases/download/v${new_ver}/v2ray-linux-64.zip
+    wget -q -Ov2ray.zip https://github.com/v2fly/v2ray-core/releases/download/v4.45.0/v2ray-linux-64.zip
     if [ $? -eq 0 ]; then
         7z x v2ray.zip v2ray v2ctl *.dat
         chmod 700 v2ctl v2ray
